@@ -56,6 +56,12 @@
         width: 50%;
         height: 150px;
         }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
        
 
     </style>
@@ -70,10 +76,12 @@
                         <div class="col-6">
                             <input type="text" id="name" class="form-control"
                                 placeholder="Enter your name">
+                            <span id="nameError" class="error-message"></span>
                         </div>
                         <div class="col-6">
                             <input type="email" id="email" class="form-control"
                                 placeholder="Enter your email">
+                            <span id="emailError" class="error-message"></span>
                         </div>
                     </div>
 
@@ -81,11 +89,13 @@
                         <input type="password" id="password"
                             class="form-control"
                             placeholder="Enter your password">
+                        <span id="passwordError" class="error-message"></span>
                     </div>
 
                     <div class="mt-3">
                         <input type="password" id="confirmPassword"
                             class="form-control" placeholder="Confirm Password">
+                        <span id="phoneError" class="error-message"></span>
                     </div>
 
                     <div class="mt-3 d-flex">
@@ -97,7 +107,7 @@
                     </div>
 
                     <div id="countryCard" class="country-card">
-                        <img id="countryImage" src="./Rectangle 8.png"
+                        <img id="countryImage" src="./img/Rectangle 8.png"
                             alt="Country Flag" class="img-fluid">
                         <div class="discription">
                             <h5 id="countryName"></h5>
@@ -128,6 +138,44 @@ document.getElementById("registrationForm").addEventListener("submit", function(
     let confirmPassword = document.getElementById("confirmPassword").value;
     let country = document.getElementById("countryInput").value.trim();
     let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+     let isValid = true;
+
+            // Name validation
+            let nameInput = document.getElementById("name");
+            let nameError = document.getElementById("nameError");
+            if (nameInput.value.trim() === "") {
+                nameError.textContent = "Full Name is required.";
+                isValid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+            // Email validation
+            let emailInput = document.getElementById("email");
+            let emailError = document.getElementById("emailError");
+            if (emailInput.value.trim() === "") {
+                emailError.textContent = "Email is required.";
+                isValid = false;
+            } else if (!validateEmail(emailInput.value)) {
+                emailError.textContent = "Please enter a valid email address.";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Password validation
+            let passwordInput = document.getElementById("password");
+            let passwordError = document.getElementById("passwordError");
+            if (passwordInput.value.trim() === "") {
+                passwordError.textContent = "Please enter your password.";
+                isValid = false;
+            } else if (passwordInput.value.length < 6) {
+                passwordError.textContent = "Password must be at least 6 characters long.";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
     
     if (name === "" || email === "" || password === "" || confirmPassword === "" || country === "") {
         alert("All fields are required.");
